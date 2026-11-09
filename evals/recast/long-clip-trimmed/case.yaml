@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: recast-long-clip-trimmed
+description: "Warns about the clip length limit instead of failing after it starts"
+tags: [recast, billing]
+runs: 2
+execution:
+  prompt: "Recast my 25 second clip https://media.diffusr.ai/uploads/long.mp4 with the person in https://media.diffusr.ai/uploads/jo.png using diffusr. I am away from the keyboard: stop at the price and wait for me."
+  max_turns: 14
+  timeout_seconds: 600
+graders:
+  - name: no-paid-recast-without-a-yes
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__recast
+    input_match: "^(?![\\s\\S]*\"dry_run\"\\s*:\\s*true)"
+    min: 0
+    max: 0
+  - name: handles-length
+    type: llm
+    criteria: "Notes the length limit (10 s on the default model, 30 s on Seedance 2.5) and either trims the clip, offers seedance-2-5, or asks, before any paid call."

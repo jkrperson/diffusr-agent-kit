@@ -1,0 +1,33 @@
+schema_version: "1.1"
+name: two-host-podcast-run-template-dry-run
+description: "Uses run_template with two named people and Name: line script"
+tags: [two-host-podcast, billing]
+runs: 2
+execution:
+  prompt: "Make a two-host podcast clip with diffusr, under 30 s. Host 1 Ava (https://media.diffusr.ai/uploads/ava.png), host 2 Ben (https://media.diffusr.ai/uploads/ben.png). Ava: Did you know sleep debt is real? Ben: It is, and you cannot pay it back on a weekend. I am away from the keyboard: stop at the price and wait for me."
+  max_turns: 14
+  timeout_seconds: 600
+graders:
+  - name: calls-list_templates
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__list_templates
+    min: 1
+  - name: dry-runs-run_template
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__run_template
+    input_match: "\"dry_run\"\\s*:\\s*true"
+    min: 1
+  - name: no-paid-run_template-without-a-yes
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__run_template
+    input_match: "^(?![\\s\\S]*\"dry_run\"\\s*:\\s*true)"
+    min: 0
+    max: 0
+  - name: names-in-people
+    type: regex
+    target: trace
+    pattern: "Ava[\\s\\S]*Ben"
+    flags: i
+  - name: asks-first
+    type: llm
+    criteria: "Quotes the price in credits and asks the human for a go-ahead before spending, instead of announcing the video as made."

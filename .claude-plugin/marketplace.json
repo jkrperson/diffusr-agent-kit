@@ -1,0 +1,14 @@
+{
+  "name": "diffusr",
+  "owner": { "name": "diffusr", "url": "https://diffusr.ai" },
+  "plugins": [
+    {
+      "name": "diffusr",
+      "source": "./",
+      "description": "Make videos, images, songs and ads with diffusr: skills plus the MCP server (OAuth).",
+      "version": "0.1.0",
+      "category": "media",
+      "tags": ["video", "ads", "mcp"]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "diffusr",
+  "version": "0.1.0",
+  "description": "Make videos, images, songs and ads with diffusr: skills for the core API, UGC talking heads, two-host podcasts, product ads, Recast, animation looks and Seedance references, plus the diffusr MCP server.",
+  "author": {
+    "name": "diffusr",
+    "url": "https://diffusr.ai"
+  },
+  "homepage": "https://diffusr.ai/docs",
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "ads",
+    "image",
+    "ugc",
+    "mcp",
+    "seedance"
+  ],
+  "experimental": {
+    "evals": "evals"
+  },
+  "privacyPolicyUrl": "https://diffusr.ai/privacy"
+}

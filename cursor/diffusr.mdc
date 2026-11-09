@@ -1,0 +1,25 @@
+---
+description: Use when generating videos, images, songs or ads with diffusr (MCP or REST API)
+alwaysApply: false
+---
+
+# diffusr
+
+diffusr makes video, images, image edits, Recasts and songs. Connect the MCP
+server `https://app.diffusr.ai/api/mcp` (OAuth) or call
+`https://app.diffusr.ai/api/v2/<tool>` with `Authorization: Bearer $DIFFUSR_KEY`.
+
+- `dfsr_test_...` keys give free fake results; `dfsr_live_...` keys spend credits.
+- Always call a make tool with `dry_run: true` first. Quote the price in
+  credits (1 credit = $0.01) and ask the user before any call without it.
+- Never retry a make call "to be safe"; use an `Idempotency-Key` for safe retries.
+- Poll `get_result(id)` every 15-30 s, or pass `callback_url`.
+- Local files: `upload_asset` first.
+- Product ad, talking head or two-host podcast up to 30 s, or a published
+  Remix/Recast template: `run_template` (see `list_templates`). Other styles
+  are recipes over the direct tools.
+- `429` has `Retry-After`: wait.
+
+Docs: https://diffusr.ai/docs · agent index https://diffusr.ai/docs/llms.txt
+(every page also as `.md`) · OpenAPI https://app.diffusr.ai/api/v2/openapi.json.
+Full recipes live in the kit's `skills/` folder.

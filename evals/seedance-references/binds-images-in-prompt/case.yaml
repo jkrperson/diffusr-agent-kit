@@ -1,0 +1,26 @@
+schema_version: "1.1"
+name: seedance-references-binds-images-in-prompt
+description: "Binds each reference picture at the top of the Seedance prompt"
+tags: [seedance-references, billing]
+runs: 2
+execution:
+  prompt: "With diffusr, make a 6 second video of the woman in https://media.diffusr.ai/uploads/mia.png ordering coffee at the counter in https://media.diffusr.ai/uploads/cafe.png. Dry run only. I am away from the keyboard: stop at the price and wait for me."
+  max_turns: 14
+  timeout_seconds: 600
+graders:
+  - name: dry-runs-make_video
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__make_video
+    input_match: "\"dry_run\"\\s*:\\s*true"
+    min: 1
+  - name: no-paid-make_video-without-a-yes
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__make_video
+    input_match: "^(?![\\s\\S]*\"dry_run\"\\s*:\\s*true)"
+    min: 0
+    max: 0
+  - name: binds-image-1
+    type: regex
+    target: trace
+    pattern: "Image 1 is"
+    flags: 

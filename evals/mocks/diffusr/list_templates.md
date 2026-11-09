@@ -1,0 +1,1 @@
+{"templates": [{"id": "tpl-talking-head", "name": "Talking Head", "kind": "talking_head"}, {"id": "tpl-podcast", "name": "Podcast", "kind": "podcast"}, {"id": "ad-bottle", "name": "Product ad", "kind": "product_ad"}], "price_hint_credits": 126}

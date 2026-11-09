@@ -1,0 +1,33 @@
+schema_version: "1.1"
+name: ugc-talking-head-run-template-dry-run
+description: "Uses run_template for a short talking head and dry-runs it"
+tags: [ugc-talking-head, billing]
+runs: 2
+execution:
+  prompt: "Make a 15 second talking-head video with diffusr: Mia (photo https://media.diffusr.ai/uploads/mia.png) in a small kitchen says \"I stopped buying coffee out and my wallet noticed. Five minutes, one pan, done.\" I am away from the keyboard: stop at the price and wait for me."
+  max_turns: 14
+  timeout_seconds: 600
+graders:
+  - name: calls-list_templates
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__list_templates
+    min: 1
+  - name: dry-runs-run_template
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__run_template
+    input_match: "\"dry_run\"\\s*:\\s*true"
+    min: 1
+  - name: no-paid-run_template-without-a-yes
+    type: tool_used
+    tool: mcp__plugin_diffusr_diffusr__run_template
+    input_match: "^(?![\\s\\S]*\"dry_run\"\\s*:\\s*true)"
+    min: 0
+    max: 0
+  - name: states-credits
+    type: regex
+    target: last_message
+    pattern: "credits?"
+    flags: i
+  - name: asks-first
+    type: llm
+    criteria: "Quotes the price in credits and asks the human for a go-ahead before spending, instead of announcing the video as made."
