@@ -20,6 +20,6 @@ server `https://app.diffusr.ai/api/mcp` (OAuth) or call
   are recipes over the direct tools.
 - `429` has `Retry-After`: wait.
 
-Docs: https://diffusr.ai/docs · agent index https://diffusr.ai/docs/llms.txt
+Guide: https://diffusr.ai/llms.txt · docs https://diffusr.ai/docs · docs index https://diffusr.ai/docs/llms.txt
 (every page also as `.md`) · OpenAPI https://app.diffusr.ai/api/v2/openapi.json.
 Full recipes live in the kit's `skills/` folder.

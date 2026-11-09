@@ -45,6 +45,6 @@ copy of `agent-kit/` in diffusr's own repo: change things there, not here.
 
 ## Evals
 
-`evals/` holds scenarios for `claude plugin eval agent-kit --ablation none`
+`evals/` holds scenarios for `claude plugin eval . --ablation none` (from this folder)
 (they use mocked tools and assert dry-run first, the right tool, a quoted price,
 and no spend without a yes). Run them with a test setup only.

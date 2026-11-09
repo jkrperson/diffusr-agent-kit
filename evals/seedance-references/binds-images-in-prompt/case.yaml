@@ -23,4 +23,3 @@ graders:
     type: regex
     target: trace
     pattern: "Image 1 is"
-    flags: 

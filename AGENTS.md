@@ -28,7 +28,8 @@ diffusr makes ad creative: video, images, image edits, Recasts, songs.
 ## Docs
 
 - https://diffusr.ai/docs
-- Agent index: https://diffusr.ai/docs/llms.txt (every page also as `.md`)
+- How-to guide for agents: https://diffusr.ai/llms.txt (recipes at https://diffusr.ai/agents/<name>.md)
+- Docs index: https://diffusr.ai/docs/llms.txt (every page also as `.md`)
 - OpenAPI: https://app.diffusr.ai/api/v2/openapi.json
-- Skills with the full recipes: `agent-kit/skills/` (`diffusr`, `ugc-talking-head`,
+- Skills with the full recipes: `skills/` in https://github.com/jkrperson/diffusr-agent-kit (`diffusr`, `ugc-talking-head`,
   `two-host-podcast`, `product-ad`, `recast`, `animation-looks`, `seedance-references`).

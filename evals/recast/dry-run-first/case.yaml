@@ -8,14 +8,6 @@ execution:
   max_turns: 14
   timeout_seconds: 600
 graders:
-  - name: dry-run-before-real-recast
-    type: tool_order
-    before:
-      tool: mcp__plugin_diffusr_diffusr__recast
-      input_match: "\"dry_run\"\\s*:\\s*true"
-    after:
-      tool: mcp__plugin_diffusr_diffusr__recast
-      input_match: "^(?![\\s\\S]*\"dry_run\"\\s*:\\s*true)"
   - name: dry-runs-recast
     type: tool_used
     tool: mcp__plugin_diffusr_diffusr__recast

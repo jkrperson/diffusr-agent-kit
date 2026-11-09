@@ -1,0 +1,606 @@
+{
+  "tools": [
+    {
+      "name": "make_video",
+      "title": "Make a video",
+      "description": "Make a short video clip from a prompt, with optional reference pictures (a person, a product, a room, a first frame) and voice clips (audio_urls). Best for ads, product shots, UGC-style clips. Building references for a Seedance model? Read diffusr://guides/seedance-references first. Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. A local file needs upload_asset first. Every call is a fresh take and bills again. An answer with warnings (e.g. the quoted lines need a longer duration_sec) means fix the request before you spend.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "The shot: subject, action, camera, setting, sound."
+          },
+          "image_urls": {
+            "description": "Optional reference pictures (a person, a product, a room, a first frame). Say in the prompt what each one is, by its place in this list — on Seedance: \"Image 1 is Mia, the speaker\". Public URLs — upload_asset gives you one for a local file.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "audio_urls": {
+            "description": "Optional voice or sound clips (models with takes_audio in list_models — the Seedance family). E.g. 5–10 s of the speaker's voice cut from an earlier clip, so the next clip keeps that voice. Name each in the prompt: \"Audio 1 is Mia's voice\". Public URLs.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "duration_sec": {
+            "description": "Length in seconds. Leave out for the model's default.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "aspect_ratio": {
+            "description": "e.g. \"9:16\", \"16:9\", \"1:1\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "resolution": {
+            "description": "e.g. \"720p\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "description": "Leave out for the recommended model. Ids come from list_models.",
+            "type": "string",
+            "minLength": 1
+          },
+          "dry_run": {
+            "description": "true = only check the request and return the price in credits. Nothing is made, nothing is spent.",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "A unique string you make up for this request. Retry with the same key and you get the first result back instead of paying again.",
+            "type": "string",
+            "pattern": "^[\\x21-\\x7e]{1,255}$"
+          },
+          "callback_url": {
+            "description": "Optional. A public https:// link. When the job finishes (done, failed or canceled) we POST the finished result here, signed. See the docs for checking the signature. Polling get_result still works.",
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "make_image",
+      "title": "Make an image",
+      "description": "Make an image from a prompt — product heroes, posters with text, portraits, illustrations. To CHANGE an existing picture use edit_image instead. Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. ",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "The picture: subject, setting, light, style."
+          },
+          "image_urls": {
+            "description": "Optional reference pictures. Public URLs.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "aspect_ratio": {
+            "description": "e.g. \"9:16\", \"16:9\", \"1:1\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "resolution": {
+            "description": "e.g. \"720p\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "description": "Leave out for the recommended model. Ids come from list_models.",
+            "type": "string",
+            "minLength": 1
+          },
+          "dry_run": {
+            "description": "true = only check the request and return the price in credits. Nothing is made, nothing is spent.",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "A unique string you make up for this request. Retry with the same key and you get the first result back instead of paying again.",
+            "type": "string",
+            "pattern": "^[\\x21-\\x7e]{1,255}$"
+          },
+          "callback_url": {
+            "description": "Optional. A public https:// link. When the job finishes (done, failed or canceled) we POST the finished result here, signed. See the docs for checking the signature. Polling get_result still works.",
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "edit_image",
+      "title": "Edit an image",
+      "description": "Change an existing picture and keep everything else: swap a colour, add text, new background, remove clutter. The picture to edit goes first in image_urls. Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. A local file needs upload_asset first. ",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "image_urls": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "The picture to edit first, then any extra references. Public URLs."
+          },
+          "prompt": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "What changes, and what stays. e.g. \"Make the can matte black. Keep the hand and the rain.\""
+          },
+          "aspect_ratio": {
+            "description": "e.g. \"9:16\", \"16:9\", \"1:1\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "resolution": {
+            "description": "e.g. \"720p\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "description": "Leave out for the recommended model. Ids come from list_models.",
+            "type": "string",
+            "minLength": 1
+          },
+          "dry_run": {
+            "description": "true = only check the request and return the price in credits. Nothing is made, nothing is spent.",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "A unique string you make up for this request. Retry with the same key and you get the first result back instead of paying again.",
+            "type": "string",
+            "pattern": "^[\\x21-\\x7e]{1,255}$"
+          },
+          "callback_url": {
+            "description": "Optional. A public https:// link. When the job finishes (done, failed or canceled) we POST the finished result here, signed. See the docs for checking the signature. Polling get_result still works.",
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "image_urls",
+          "prompt"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "recast",
+      "title": "Recast a video",
+      "description": "Take an existing clip and put new people, products or places into it, keeping its motion, camera and timing. Give the clip as video_url, photos of who or what should appear as image_urls, and a mode (\"world\" = rebuild everything from the photos, \"swap\" = replace just the main subject) or your own prompt. The default model takes clips up to 10 s and allows real people. The result keeps the clip's own sound (voice, music) — the model only remakes the picture. Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. A local file needs upload_asset first. ",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "video_url": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The source clip, an MP4 or MOV link (upload_asset gives one). Its motion, camera and timing are kept. At most 10 s on the default model (30 s on seedance-2-5): a longer clip is refused before anything is spent, so trim it first. Its real length is read from the file and is what you are priced on."
+          },
+          "image_urls": {
+            "description": "Photos of who or what should appear in the clip.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "mode": {
+            "description": "\"world\" = same motion, new people, place and look from the photos. \"swap\" = replace the main subject with the first photo, keep the rest. Use this OR prompt.",
+            "type": "string",
+            "enum": [
+              "world",
+              "swap"
+            ]
+          },
+          "prompt": {
+            "description": "Your own instruction instead of a mode. Say the change, then what to keep.",
+            "type": "string",
+            "maxLength": 10000
+          },
+          "duration_sec": {
+            "description": "Ignored. The output length follows your clip's real length, read from video_url (rounded, within the model's range). It is also what you are priced on.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "aspect_ratio": {
+            "description": "e.g. \"9:16\", \"16:9\", \"1:1\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "resolution": {
+            "description": "e.g. \"720p\". Leave out for the model's default.",
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "description": "Leave out for the recommended model. Ids come from list_models.",
+            "type": "string",
+            "minLength": 1
+          },
+          "dry_run": {
+            "description": "true = only check the request and return the price in credits. Nothing is made, nothing is spent.",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "A unique string you make up for this request. Retry with the same key and you get the first result back instead of paying again.",
+            "type": "string",
+            "pattern": "^[\\x21-\\x7e]{1,255}$"
+          },
+          "callback_url": {
+            "description": "Optional. A public https:// link. When the job finishes (done, failed or canceled) we POST the finished result here, signed. See the docs for checking the signature. Polling get_result still works.",
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "video_url"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "make_music",
+      "title": "Make a song",
+      "description": "Make an original song from a prompt: an ad soundtrack, a jingle, background music. About a minute long (a length in the prompt is only a hint), with sung lyrics unless it says \"Instrumental only, no vocals.\" Write your own lyrics with [Verse] / [Chorus] tags, or let it write them. Named artists' voices and copyrighted lyrics are refused. The result is an mp3 (output.kind AUDIO). Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. ",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "The song: genre, mood, instruments, tempo, and what it is for. Add lyrics with [Verse] / [Chorus] tags, or say \"Instrumental only, no vocals.\" Lyria picks the length (about a minute); a length in words is only a hint."
+          },
+          "dry_run": {
+            "description": "true = only check the request and return the price in credits. Nothing is made, nothing is spent.",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "A unique string you make up for this request. Retry with the same key and you get the first result back instead of paying again.",
+            "type": "string",
+            "pattern": "^[\\x21-\\x7e]{1,255}$"
+          },
+          "callback_url": {
+            "description": "Optional. A public https:// link. When the job finishes (done, failed or canceled) we POST the finished result here, signed. See the docs for checking the signature. Polling get_result still works.",
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "run_template",
+      "title": "Run a template",
+      "description": "Run one of diffusr's templates as ONE call: a product ad, a video template (make one like it, or swap its people), a one-person talking head or a two-host podcast up to 30 s. Pick the id from list_templates, which says what each needs. Talking head and podcast: write the script word for word and pass photos of the people. Animation, story, song and longer films are not here: use make_image and make_video. Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. A local file needs upload_asset first. ",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "template": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The template's id, from list_templates."
+          },
+          "mode": {
+            "description": "Video templates only. \"remix\" (default) = make a new video like the template, from your pictures and prompt. \"recast\" = keep the template's moves and swap who is in it for your image_urls.",
+            "type": "string",
+            "enum": [
+              "remix",
+              "recast"
+            ]
+          },
+          "prompt": {
+            "description": "Product ads: an optional change to the ad (\"make it a winter sale\"). Video templates: remix = your version of the template's prompt (leave out to use the template's own); recast = what to change.",
+            "type": "string",
+            "maxLength": 10000
+          },
+          "pictures": {
+            "description": "Video template remix: one picture per slot, keyed by the slot name from list_templates (e.g. {\"him\": \"https://…\"}).",
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "minLength": 1
+            },
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "image_urls": {
+            "description": "Video template recast: photos of who should appear in the clip.",
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "product_image_url": {
+            "description": "Product ads: a photo of your product, uploaded with upload_asset. Talking head: optional, shows the product on camera.",
+            "type": "string",
+            "minLength": 1
+          },
+          "script": {
+            "description": "Talking head: what the person says, word for word. Podcast: one line per turn, written \"Name: what they say\", the names exactly as in people. Everything must fit one 30 s take.",
+            "type": "string",
+            "maxLength": 4000
+          },
+          "place": {
+            "description": "Talking head: where they are, in a few words, e.g. \"a small Paris hotel room with a tall window\".",
+            "type": "string",
+            "maxLength": 300
+          },
+          "people": {
+            "description": "Talking head: one person. Podcast: two hosts, the first sits on the left.",
+            "maxItems": 2,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40,
+                  "description": "What the script calls them, e.g. \"Mia\". Plain first names work best."
+                },
+                "image_url": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "A clear photo of their face. A public link — upload_asset gives one for a local file."
+                },
+                "look": {
+                  "description": "Optional. Age, hair and outfit in a few words, e.g. \"30s, short dark hair, green jacket\". Leave out to keep what the photo shows.",
+                  "type": "string",
+                  "maxLength": 300
+                }
+              },
+              "required": [
+                "name",
+                "image_url"
+              ]
+            }
+          },
+          "setup": {
+            "description": "Talking head on the plain template: how it is filmed — \"selfie\" (default), \"propped\" or \"friend\".",
+            "type": "string",
+            "enum": [
+              "selfie",
+              "propped",
+              "friend"
+            ]
+          },
+          "resolution": {
+            "description": "Leave out for the template's own default. 480p costs less.",
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          },
+          "dry_run": {
+            "description": "true = only check the request and return the price in credits. Nothing is made, nothing is spent.",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "description": "A unique string you make up for this request. Retry with the same key and you get the first result back instead of paying again.",
+            "type": "string",
+            "pattern": "^[\\x21-\\x7e]{1,255}$"
+          },
+          "callback_url": {
+            "description": "Optional. A public https:// link. When the job finishes (done, failed or canceled) we POST the finished result here, signed. See the docs for checking the signature. Polling get_result still works.",
+            "type": "string",
+            "maxLength": 2048
+          }
+        },
+        "required": [
+          "template"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "list_templates",
+      "title": "List templates",
+      "description": "The templates run_template can run, each with its id, kind (product_ad, video_template, talking_head, podcast), the inputs it takes and a rough price. Free.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "get_result",
+      "title": "Get a result",
+      "description": "Status and file of something you made. When status is SUCCEEDED, output.url is the finished file — show that link to the user. FAILED carries the reason in error.message. Still running? Wait 15-30 s and call again; video takes 1-10 minutes.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id a make/edit/recast call returned"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "list_results",
+      "title": "List recent results",
+      "description": "The user's most recent results, newest first, with their file URLs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "description": "Default 20.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "upload_asset",
+      "title": "Upload a file",
+      "description": "Get a URL diffusr can read for a picture, clip or audio file. Free. LOCAL file, any size → pass content_type and the EXACT size_bytes; you get upload_url and a ready curl command. PUT the file there (run the curl if you have a shell, otherwise give it to the user), then use file_url. ONLINE image or short clip → pass source_url. A large online video can time out that way: download it and upload it as a local file instead. Limits: images 25 MB, video 250 MB, audio 50 MB — compress or trim anything bigger first. Uploads are inputs: kept 7 days after a job last used them (24 h on test keys), then deleted.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "source_url": {
+            "description": "A public http(s) URL to copy in. Use this OR the three fields below.",
+            "type": "string",
+            "minLength": 1
+          },
+          "content_type": {
+            "description": "For a LOCAL file: its MIME type, e.g. \"video/mp4\", \"image/jpeg\".",
+            "type": "string",
+            "minLength": 1
+          },
+          "size_bytes": {
+            "description": "For a LOCAL file: its exact size in bytes.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "list_models",
+      "title": "List models",
+      "description": "Only needed to pick a specific model — every tool already has a good default. Shows each model's aspect ratios, lengths, resolutions, reference limits and price per second or image in credits.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "video",
+              "image"
+            ]
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    }
+  ]
+}

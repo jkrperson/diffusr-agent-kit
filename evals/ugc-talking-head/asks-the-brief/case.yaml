@@ -4,7 +4,7 @@ description: "Asks for the missing brief instead of guessing"
 tags: [ugc-talking-head, billing]
 runs: 2
 execution:
-  prompt: "Make me a talking head video with diffusr. I am away from the keyboard: stop at the price and wait for me."
+  prompt: "Make me a talking head video with diffusr. Don't spend anything until I say so."
   max_turns: 8
   timeout_seconds: 600
 graders:

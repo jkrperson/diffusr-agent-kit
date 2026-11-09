@@ -22,4 +22,4 @@ graders:
     max: 0
   - name: plans-takes
     type: llm
-    criteria: "Explains that a video this long is takes of up to 30 s (not one call), and quotes or promises a price before spending."
+    criteria: "Plans the video as several takes of about 30 s or less (not one 2-minute call), and quotes or promises a price before spending."

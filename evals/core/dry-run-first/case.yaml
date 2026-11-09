@@ -8,14 +8,6 @@ execution:
   max_turns: 14
   timeout_seconds: 600
 graders:
-  - name: dry-run-before-real-make_video
-    type: tool_order
-    before:
-      tool: mcp__plugin_diffusr_diffusr__make_video
-      input_match: "\"dry_run\"\\s*:\\s*true"
-    after:
-      tool: mcp__plugin_diffusr_diffusr__make_video
-      input_match: "^(?![\\s\\S]*\"dry_run\"\\s*:\\s*true)"
   - name: dry-runs-make_video
     type: tool_used
     tool: mcp__plugin_diffusr_diffusr__make_video

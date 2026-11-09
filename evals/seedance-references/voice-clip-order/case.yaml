@@ -23,9 +23,7 @@ graders:
     type: regex
     target: trace
     pattern: "audio_urls"
-    flags: 
   - name: names-audio-1
     type: regex
     target: trace
     pattern: "Audio 1"
-    flags: 

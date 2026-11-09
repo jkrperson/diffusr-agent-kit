@@ -32,6 +32,11 @@ use a test key.
    returns the same run.
 4. Leave `model` out unless there is a reason; every tool has a default.
    `list_models` shows the choices.
+5. **Ask for what only the human knows.** A video about a real person or
+   product needs their photo, their words and their product from the human.
+   If those are missing, ask (one short list) before pricing. Don't invent a
+   person, a script or a brand and price that. Style details (place, framing,
+   music) can take sensible defaults; say which ones you picked.
 
 ## Tools
 
