@@ -31,7 +31,7 @@ Each look is a template: its own style frames, grammar and clip prompts. The rec
 - **Visdev Sunlit** (`tpl-animation-visdev-sunlit`): Matte hand-painted daylight, soft haze, real form.
 - **Family Guy** (`tpl-animation-family-guy`): Clean vector adult cartoon, a locked TV camera, deadpan holds.
 
-Live ids and each look's own recipe: over MCP the prompt of that name or `diffusr://templates/<id>`; `list_templates` shows what `run_template` can run (animation looks are recipes, not one-call templates). The recipe below is the claymation preset, shown as the representative: fetch the chosen look's own recipe and follow that one.
+`list_templates` shows what `run_template` can run (animation looks are recipes, not one-call templates). The recipe below is the claymation preset, shown as the representative: every look follows the same steps in its own style.
 
 ## Money rules
 
@@ -45,7 +45,7 @@ Your product, explained in handmade clay.
 
 This is the recipe diffusr's own Creatives Agent follows for this template. Make the film with the diffusr tools: one make_image (the first frame) and one make_video (the clip) per shot. Replace every ALL-CAPS part of the prompts below; keep the rest word for word — that text is the look.
 
-Before you make or pass any reference picture, read the `seedance-references` skill (MCP: diffusr://guides/seedance-references).
+Before you make or pass any reference picture, read the `seedance-references` skill.
 
 ## 1. Brief
 

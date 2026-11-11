@@ -3,7 +3,7 @@
     {
       "name": "make_video",
       "title": "Make a video",
-      "description": "Make a short video clip from a prompt, with optional reference pictures (a person, a product, a room, a first frame) and voice clips (audio_urls). Best for ads, product shots, UGC-style clips. Building references for a Seedance model? Read diffusr://guides/seedance-references first. Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. A local file needs upload_asset first. Every call is a fresh take and bills again. An answer with warnings (e.g. the quoted lines need a longer duration_sec) means fix the request before you spend.",
+      "description": "Make a short video clip from a prompt, with optional reference pictures (a person, a product, a room, a first frame) and voice clips (audio_urls). Best for ads, product shots, UGC-style clips. Costs credits (1 credit = $0.01) — pass dry_run: true first: its price is the most you pay. Returns an id straight away; call get_result with it until the file is ready. A local file needs upload_asset first. Every call is a fresh take and bills again. An answer with warnings (e.g. the quoted lines need a longer duration_sec) means fix the request before you spend.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -486,6 +486,8 @@
       },
       "annotations": {
         "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
         "openWorldHint": false
       },
       "execution": {
@@ -511,6 +513,8 @@
       },
       "annotations": {
         "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
         "openWorldHint": false
       },
       "execution": {
@@ -535,6 +539,54 @@
       },
       "annotations": {
         "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "cancel_result",
+      "title": "Cancel a result",
+      "description": "Stop something you made that hasn't finished yet. You pay only for what already ran; `charge` in the answer says what was charged. A finished result comes back unchanged. Only cancel when the user asks to stop it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id a make/edit/recast call returned"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "get_me",
+      "title": "Show the account and credits",
+      "description": "Who is signed in, the credits left to spend (1 credit = $0.01), and whether a team pays. Free.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
         "openWorldHint": false
       },
       "execution": {
@@ -596,6 +648,8 @@
       },
       "annotations": {
         "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
         "openWorldHint": false
       },
       "execution": {

@@ -6,6 +6,9 @@ diffusr makes ad creative: video, images, image edits, Recasts, songs.
 
 - MCP: `https://app.diffusr.ai/api/mcp` (sign in with OAuth), or
 - REST: `https://app.diffusr.ai/api/v2/<tool>` with `Authorization: Bearer $DIFFUSR_KEY`.
+- Command line: `npx diffusr login` (show the person the code and link; they
+  press Yes, connect), then `npx diffusr make_image "..." --json`. Add `--yes`
+  only after the person agreed to the price.
 - Test keys (`dfsr_test_...`) give free fake results: use one while building.
   Live keys (`dfsr_live_...`) spend real credits.
 

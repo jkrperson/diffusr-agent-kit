@@ -55,7 +55,7 @@ Audio 1 is Mia's voice: keep the same voice, tone and pace.
 
 The Talking head recipe skips the frames: its empty-room picture and clean character sheet already hold the room and the person, so its later takes carry only take 1's voice.
 
-diffusr's templates spell all of this out step by step: the Talking head and Podcast recipes (diffusr://templates/…).
+diffusr's templates spell all of this out step by step: the Talking head and Podcast recipes.
 
 ## Limits
 

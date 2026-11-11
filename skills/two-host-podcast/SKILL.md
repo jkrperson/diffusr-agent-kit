@@ -34,7 +34,7 @@ Two hosts, one studio, one take — a polished viral podcast clip.
 
 This is the recipe diffusr's own Creatives Agent follows for this template, set up for these tools: make_image for the three stills, make_video for the one take. Replace every ALL-CAPS part of the prompts below; keep the rest word for word — that text is the look.
 
-Before you make or pass any reference picture, read the `seedance-references` skill (MCP: diffusr://guides/seedance-references).
+Before you make or pass any reference picture, read the `seedance-references` skill.
 
 ## 1. Brief
 

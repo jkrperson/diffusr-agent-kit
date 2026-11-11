@@ -37,7 +37,7 @@ This is diffusr's recipe for this template, set up for these tools: make_image a
 
 The prompts below have these ALL-CAPS placeholders: PERSONA NAME · SECOND PERSON NAME · AGE, LOOK, HAIR AND OUTFIT · THE PLACE · PLACE NAME · WHERE · PRODUCT NAME · PRODUCT LOOK · WHAT IT SHOWS · SECONDS · CUT1 · CUT2 · CUT3 · CUT4 · CUT5 · DIRECTIONS · LINE 1 · LINE 2 · LINE 3 · LINE 4 · LINE 5 · LINE 6. Replace those, and keep every other word exactly as written — the capitals, the NOTs and the [brackets] included: that text is the look, and it is what makes the video read as a real person's phone clip instead of AI.
 
-Before you make or pass any reference picture or voice clip, read the `seedance-references` skill (MCP: diffusr://guides/seedance-references).
+Before you make or pass any reference picture or voice clip, read the `seedance-references` skill.
 
 ## 1. Brief
 

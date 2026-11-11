@@ -15,6 +15,10 @@ use a test key.
   OAuth when the client asks. No key to copy.
 - **REST:** `https://app.diffusr.ai/api/v2/<tool>`, header
   `Authorization: Bearer $DIFFUSR_KEY`. Keys: app.diffusr.ai, Developers.
+- **Command line:** `npx diffusr login` gets a key with no copying (show the
+  person the code and link; they press Yes, connect). Then every API call is
+  a command (`npx diffusr make_image "..." --json`). Without `--yes` it only
+  prices and stops: add `--yes` after the person agrees to the price.
 - **Test keys (`dfsr_test_...`) are free:** same calls, same checks and
   prices, fake results, nothing is spent. Use one while building or
   evaluating. Live keys (`dfsr_live_...`) spend real credits.
@@ -62,7 +66,7 @@ use a test key.
 - Anything else in a template's style (animation looks, longer talking heads,
   custom shots): follow the step-by-step recipe over the direct tools. Skills
   `ugc-talking-head`, `two-host-podcast`, `product-ad`, `animation-looks`,
-  `recast`; over MCP the same recipes are prompts and `diffusr://templates/<id>`.
+  `recast`.
 
 ## Flow
 
@@ -105,5 +109,5 @@ See skill `seedance-references`.
 
 Full reference: https://diffusr.ai/docs (agent index
 https://diffusr.ai/docs/llms.txt, every page also as `.md`, OpenAPI at
-https://app.diffusr.ai/api/v2/openapi.json). Over MCP: resource
-`diffusr://guides/docs`.
+https://app.diffusr.ai/api/v2/openapi.json). The MCP tools and the `diffusr`
+command line (`npx diffusr login`) have the same calls under the same names.
